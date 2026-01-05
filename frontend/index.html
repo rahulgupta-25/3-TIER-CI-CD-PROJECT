@@ -7,7 +7,7 @@
 
 <script>
 function save() {
-  fetch("http://localhost:3000/users", {
+  fetch("http://99.79.78.231:3000/users", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
     body: JSON.stringify({ name: document.getElementById("name").value })
@@ -15,7 +15,7 @@ function save() {
 }
 
 function load() {
-  fetch("http://localhost:3000/users")
+  fetch("http://99.79.78.231:3000/users")
     .then(res => res.json())
     .then(data => {
       list.innerHTML = "";
