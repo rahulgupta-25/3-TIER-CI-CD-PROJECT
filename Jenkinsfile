@@ -48,7 +48,7 @@ pipeline {
         docker rm -f frontend || true
         docker run -d --name frontend \
         --network app-net \
-        -p 8080:80 frontend-app
+        -p 7070:80 frontend-app
         '''
       }
     }
