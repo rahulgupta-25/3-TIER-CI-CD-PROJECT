@@ -1,29 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Registration</title>
+</head>
+<body>
+
 <h2>User Registration</h2>
 
-<input id="name" placeholder="Enter name">
-<button onclick="save()">Save</button>
+<input type="text" id="username" placeholder="Enter name">
+<button id="saveBtn">Save</button>
 
-<ul id="list"></ul>
+<ul id="userList"></ul>
 
 <script>
-function save() {
-  fetch("http://99.79.78.231:3000/users", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ name: document.getElementById("name").value })
-  }).then(load);
-}
+  document.getElementById("saveBtn").addEventListener("click", saveUser);
 
-function load() {
-  fetch("http://99.79.78.231:3000/users")
-    .then(res => res.json())
-    .then(data => {
-      list.innerHTML = "";
-      data.forEach(u => {
-        list.innerHTML += "<li>"+u.name+"</li>";
+  function saveUser() {
+    const name = document.getElementById("username").value;
+
+    if (!name) {
+      alert("Please enter name");
+      return;
+    }
+
+    fetch("http://99.79.78.231:3000/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ name })
+    })
+    .then(() => {
+      document.getElementById("username").value = "";
+      loadUsers();
+    })
+    .catch(err => console.error(err));
+  }
+
+  function loadUsers() {
+    fetch("http://99.79.78.231:3000/users")
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById("userList");
+        list.innerHTML = "";
+        data.forEach(u => {
+          const li = document.createElement("li");
+          li.innerText = u.name;
+          list.appendChild(li);
+        });
       });
-    });
-}
+  }
 
-load();
+  loadUsers();
 </script>
+
+</body>
+</html>
