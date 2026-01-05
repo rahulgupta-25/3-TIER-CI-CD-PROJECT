@@ -1,0 +1,29 @@
+<h2>User Registration</h2>
+
+<input id="name" placeholder="Enter name">
+<button onclick="save()">Save</button>
+
+<ul id="list"></ul>
+
+<script>
+function save() {
+  fetch("http://localhost:3000/users", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ name: document.getElementById("name").value })
+  }).then(load);
+}
+
+function load() {
+  fetch("http://localhost:3000/users")
+    .then(res => res.json())
+    .then(data => {
+      list.innerHTML = "";
+      data.forEach(u => {
+        list.innerHTML += "<li>"+u.name+"</li>";
+      });
+    });
+}
+
+load();
+</script>
